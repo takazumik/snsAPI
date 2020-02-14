@@ -1,0 +1,273 @@
+"use strict"
+
+//新規登録
+const signup = () => {
+    const name = document.getElementById("name").value;
+    const bio = document.getElementById("bio").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirmation = document.getElementById("passwordConfirmation").value;
+
+
+    const signupData = {
+        sign_up_user_params: {
+            name: name,
+            bio: bio,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(signupData))
+
+    fetch("https://teachapi.herokuapp.com/sign_up", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(signupData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//ログイン
+const login = () => {
+    const loginEmail = document.getElementById("loginEmail").value;
+    const loginPassword = document.getElementById("loginPassword").value;
+    const loginPasswordConfirmation = document.getElementById("loginPasswordConfirmation").value;
+
+
+    const loginData = {
+        sign_in_user_params: {
+            email: loginEmail,
+            password: loginPassword,
+            password_confirmation: loginPasswordConfirmation
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(loginData))
+
+    fetch("https://teachapi.herokuapp.com/sign_in", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(loginData),
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//ユーザー一覧
+const users = () => {
+    const page = document.getElementById("page").value;
+    const limit = document.getElementById("limit").value;
+    const query = document.getElementById("query").value;
+
+    const url = `https://teachapi.herokuapp.com/users?page=${page}&limit=${limit}&query=${query}`;
+    console.log("今送ったデータ url")
+    console.log(url)
+
+    fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+
+//投稿一覧
+const posts = () => {
+    const postPage = document.getElementById("postPage").value;
+    const postLimit = document.getElementById("postLimit").value;
+    const postQuery = document.getElementById("postQuery").value;
+
+    console.log("今送ったデータ url")
+
+    fetch(`https://teachapi.herokuapp.com/posts?posts=${postPage}&limit=${postLimit}&query=${postQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//ユーザー編集
+const userEdit = () => {
+    const editName = document.getElementById("editName").value;
+    const editBio = document.getElementById("editBio").value;
+
+    const userEditData = {
+        user_params: {
+            name: editName,
+            bio: editBio,
+        }
+    };
+
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(userEditData))
+
+    fetch("https://teachapi.herokuapp.com/users/902", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+            body: JSON.stringify(userEditData),
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//ユーザー削除
+const userDelete = () => {
+    const deleteUser = document.getElementById("deleteUser").value;
+
+    const userDeleteData = {
+        post_params: {
+            text: deleteUser
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(userDeleteData))
+
+    fetch("https://teachapi.herokuapp.com/users/902", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+            body: JSON.stringify(userDeleteData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+
+//タイムライン
+const timeline = () => {
+    const timelinePage = document.getElementById("timelinePage").value;
+    const timelineLimit = document.getElementById("timelineLimit").value;
+    const timelineQuery = document.getElementById("timelineQuery").value;
+
+    console.log("今送ったデータ url")
+
+    fetch(`https://teachapi.herokuapp.com/users/902/timeline?page=${timelinePage}&limit=${timelineLimit}&query=${timelineQuery}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+
+//投稿作成
+const newPost = () => {
+    const postText = document.getElementById("postText").value;
+
+    const newPostData = {
+        post_params: {
+            text: postText
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(newPostData))
+
+    fetch("https://teachapi.herokuapp.com/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+            body: JSON.stringify(newPostData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//投稿編集
+const editPost = () => {
+    const editText = document.getElementById("editText").value;
+
+    const editPostData = {
+        post_params: {
+            text: editText
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(editPostData))
+
+    fetch("https://teachapi.herokuapp.com/posts/534", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+            body: JSON.stringify(editPostData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
+
+//投稿削除
+const deleteText = () => {
+    const deleteID = document.getElementById("delete").value;
+
+    const deleteData = {
+        post_params: {
+            text: deleteID
+        }
+    };
+
+    console.log("今送ったデータ")
+    console.log(JSON.stringify(deleteData))
+
+    fetch("https://teachapi.herokuapp.com/posts/535", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+            },
+            body: JSON.stringify(deleteData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+        })
+}
