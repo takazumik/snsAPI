@@ -19,11 +19,12 @@ const signup = () => {
         }
     };
 
-    console.log("今送ったデータ")
-    console.log(JSON.stringify(signupData))
+    console.log("今送ったデータ");
+    console.log(JSON.stringify(signupData));
+
 
     fetch("https://teachapi.herokuapp.com/sign_up", {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
             },
@@ -46,12 +47,13 @@ const login = () => {
         sign_in_user_params: {
             email: loginEmail,
             password: loginPassword,
-            password_confirmation: loginPasswordConfirmation
+            password_confirmation: loginPasswordConfirmation,
         }
     };
 
-    console.log("今送ったデータ")
-    console.log(JSON.stringify(loginData))
+
+    console.log("今送ったデータ");
+    console.log(JSON.stringify(loginData));
 
     fetch("https://teachapi.herokuapp.com/sign_in", {
             method: "POST",
@@ -62,6 +64,9 @@ const login = () => {
         })
         .then(response => response.json())
         .then(json => {
+            // ここでログインに成功したときにサーバから返されるtokenを保存する！
+            const token = json.token;
+            localStorage.setItem('token', token)
             console.log(json)
         })
 }
@@ -71,21 +76,23 @@ const users = () => {
     const page = document.getElementById("page").value;
     const limit = document.getElementById("limit").value;
     const query = document.getElementById("query").value;
+    const allusers = document.getElementById("allusers");
 
-    const url = `https://teachapi.herokuapp.com/users?page=${page}&limit=${limit}&query=${query}`;
     console.log("今送ったデータ url")
-    console.log(url)
 
-    fetch(url, {
+    const token = localStorage.getItem('token')
+
+    fetch(`https://teachapi.herokuapp.com/users?page=${page}&limit=${limit}&query=${query}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
+            console.log(json);
+            allusers.innerHTML = JSON.stringify(json)
         })
 }
 
@@ -95,19 +102,24 @@ const posts = () => {
     const postPage = document.getElementById("postPage").value;
     const postLimit = document.getElementById("postLimit").value;
     const postQuery = document.getElementById("postQuery").value;
+    const showPost = document.getElementById("showPost");
+
 
     console.log("今送ったデータ url")
+
+    const token = localStorage.getItem('token')
 
     fetch(`https://teachapi.herokuapp.com/posts?posts=${postPage}&limit=${postLimit}&query=${postQuery}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
         })
         .then(response => response.json())
         .then(json => {
             console.log(json)
+            showPost.innerHTML = JSON.stringify(json)
         })
 }
 
@@ -115,6 +127,7 @@ const posts = () => {
 const userEdit = () => {
     const editName = document.getElementById("editName").value;
     const editBio = document.getElementById("editBio").value;
+    const showUserEdit = document.getElementById("showUserEdit");
 
     const userEditData = {
         user_params: {
@@ -124,20 +137,23 @@ const userEdit = () => {
     };
 
 
-    console.log("今送ったデータ")
-    console.log(JSON.stringify(userEditData))
+    console.log("今送ったデータ");
+    console.log(JSON.stringify(userEditData));
 
-    fetch("https://teachapi.herokuapp.com/users/902", {
+    const token = localStorage.getItem('token');
+
+    fetch("https://teachapi.herokuapp.com/users/913", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(userEditData),
         })
         .then(response => response.json())
         .then(json => {
             console.log(json)
+            showUserEdit.innerHTML = JSON.stringify(json)
         })
 }
 
@@ -151,14 +167,16 @@ const userDelete = () => {
         }
     };
 
-    console.log("今送ったデータ")
-    console.log(JSON.stringify(userDeleteData))
+    console.log("今送ったデータ");
+    console.log(JSON.stringify(userDeleteData));
 
-    fetch("https://teachapi.herokuapp.com/users/902", {
+    const token = localStorage.getItem('token');
+
+    fetch("https://teachapi.herokuapp.com/users/913", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(userDeleteData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
         })
@@ -174,19 +192,24 @@ const timeline = () => {
     const timelinePage = document.getElementById("timelinePage").value;
     const timelineLimit = document.getElementById("timelineLimit").value;
     const timelineQuery = document.getElementById("timelineQuery").value;
+    const showTimeline = document.getElementById("showTimeline");
+
 
     console.log("今送ったデータ url")
 
-    fetch(`https://teachapi.herokuapp.com/users/902/timeline?page=${timelinePage}&limit=${timelineLimit}&query=${timelineQuery}`, {
+    const token = localStorage.getItem('token');
+
+    fetch(`https://teachapi.herokuapp.com/users/913/timeline?page=${timelinePage}&limit=${timelineLimit}&query=${timelineQuery}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
+            console.log(json);
+            showTimeline.innerHTML = JSON.stringify(json);
         })
 }
 
@@ -194,6 +217,8 @@ const timeline = () => {
 //投稿作成
 const newPost = () => {
     const postText = document.getElementById("postText").value;
+    const showNewpost = document.getElementById("showNewpost");
+
 
     const newPostData = {
         post_params: {
@@ -204,23 +229,28 @@ const newPost = () => {
     console.log("今送ったデータ")
     console.log(JSON.stringify(newPostData))
 
+    const token = localStorage.getItem('token');
+
     fetch("https://teachapi.herokuapp.com/posts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(newPostData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
+            console.log(json);
+            showNewpost.innerHTML = JSON.stringify(json);
         })
 }
 
 //投稿編集
 const editPost = () => {
     const editText = document.getElementById("editText").value;
+    const showEditPost = document.getElementById("showEditPost");
+
 
     const editPostData = {
         post_params: {
@@ -231,17 +261,20 @@ const editPost = () => {
     console.log("今送ったデータ")
     console.log(JSON.stringify(editPostData))
 
+    const token = localStorage.getItem('token');
+
     fetch("https://teachapi.herokuapp.com/posts/534", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(editPostData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
         })
         .then(response => response.json())
         .then(json => {
-            console.log(json)
+            console.log(json);
+            showEditPost.innerHTML = JSON.stringify(json);
         })
 }
 
@@ -258,11 +291,13 @@ const deleteText = () => {
     console.log("今送ったデータ")
     console.log(JSON.stringify(deleteData))
 
+    const token = localStorage.getItem('token');
+
     fetch("https://teachapi.herokuapp.com/posts/535", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
-                "Authorization": "Bearer MkSmtpRFGzQsuA01JTcTqgtt"
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(deleteData), // 本文のデータ型は "Content-Type" ヘッダーと一致する必要があります
         })
