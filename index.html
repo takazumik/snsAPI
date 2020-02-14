@@ -4,10 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>偽ツイッター</title>
+    <link rel="stylesheet" href="design.css">
 </head>
 
 <body>
-    <h1>偽ツイッターでつぶやこう</h1>
+    <h1>tvvitter</h1>
     <div id="signup">
         <h2>新規登録</h2>
         <input type="text" placeholder="name" id="name">
@@ -33,7 +34,10 @@
         <input type="text" placeholder="クエリ" id="query">
         <input type="button" value="ユーザー一覧" onclick="users()">
 
-        <span id="allusers"></span>
+        <div class="view">
+            <div id="allusers">
+            </div>
+        </div>
     </div>
 
     <div id="posts">
@@ -43,7 +47,10 @@
         <input type="text" placeholder="クエリ" id="postQuery">
         <input type="button" value="投稿一覧" onclick="posts()">
 
-        <span id="showPost"></span>
+
+        <div class="view">
+            <div id="showPost"></div>
+        </div>
     </div>
 
     <div id="userEdit">
@@ -92,7 +99,6 @@
         <h2>削除</h2>
         <input type="button" value="削除する" id="deleteText" onclick="deleteText()" />
     </div>
-
 
 
 

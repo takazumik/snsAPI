@@ -92,7 +92,14 @@ const users = () => {
         .then(response => response.json())
         .then(json => {
             console.log(json);
-            allusers.innerHTML = JSON.stringify(json)
+            // 名前だけ出したい
+            let s = "<br>"
+            for (let i = 0; i < json.length; i++) {
+                const obj = json[i]
+                const objstr = JSON.stringify(obj.name)
+                s += objstr + "<br>"
+            }
+            allusers.innerHTML = s
         })
 }
 
@@ -142,7 +149,8 @@ const userEdit = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch("https://teachapi.herokuapp.com/users/913", {
+    const id = 12345 // getelementbyidをつかう
+    fetch(`https://teachapi.herokuapp.com/users/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
