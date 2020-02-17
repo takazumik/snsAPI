@@ -168,8 +168,8 @@ const userEdit = () => {
 
 //ユーザー削除
 const userDelete = () => {
+    const deleteUserId = document.getElementById("delete-user-id").value;
     const deleteUser = document.getElementById("deleteUser").value;
-
     const userDeleteData = {
         post_params: {
             text: deleteUser
@@ -181,7 +181,7 @@ const userDelete = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch("https://teachapi.herokuapp.com/users/913", {
+    fetch(`https://teachapi.herokuapp.com/users/${deleteUserId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
