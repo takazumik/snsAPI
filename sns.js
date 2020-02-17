@@ -134,7 +134,9 @@ const posts = () => {
 const userEdit = () => {
     const editName = document.getElementById("editName").value;
     const editBio = document.getElementById("editBio").value;
+    const userEditId = document.getElementById("user-edit-id").value;
     const showUserEdit = document.getElementById("showUserEdit");
+
 
     const userEditData = {
         user_params: {
@@ -149,8 +151,7 @@ const userEdit = () => {
 
     const token = localStorage.getItem('token');
 
-    const id = 12345 // getelementbyidをつかう
-    fetch(`https://teachapi.herokuapp.com/users/${id}`, {
+    fetch(`https://teachapi.herokuapp.com/users/${userEditId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -200,6 +201,7 @@ const timeline = () => {
     const timelinePage = document.getElementById("timelinePage").value;
     const timelineLimit = document.getElementById("timelineLimit").value;
     const timelineQuery = document.getElementById("timelineQuery").value;
+    const timelineId = document.getElementById("timeline-id").value;
     const showTimeline = document.getElementById("showTimeline");
 
 
@@ -207,7 +209,7 @@ const timeline = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch(`https://teachapi.herokuapp.com/users/913/timeline?page=${timelinePage}&limit=${timelineLimit}&query=${timelineQuery}`, {
+    fetch(`https://teachapi.herokuapp.com/users/${timelineId}/timeline?page=${timelinePage}&limit=${timelineLimit}&query=${timelineQuery}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -257,6 +259,7 @@ const newPost = () => {
 //投稿編集
 const editPost = () => {
     const editText = document.getElementById("editText").value;
+    const postEditId = document.getElementById("post-edit-id").value;
     const showEditPost = document.getElementById("showEditPost");
 
 
@@ -271,7 +274,7 @@ const editPost = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch("https://teachapi.herokuapp.com/posts/534", {
+    fetch(`https://teachapi.herokuapp.com/posts/${postEditId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -288,7 +291,8 @@ const editPost = () => {
 
 //投稿削除
 const deleteText = () => {
-    const deleteID = document.getElementById("delete").value;
+    const idDelete = document.getElementById("delete-id").value;
+    const deleteID = document.getElementById("delete");
 
     const deleteData = {
         post_params: {
@@ -301,7 +305,7 @@ const deleteText = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch("https://teachapi.herokuapp.com/posts/535", {
+    fetch(`https://teachapi.herokuapp.com/posts/${idDelete}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
